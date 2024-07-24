@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .cc {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+        }
+        .cc h3 {
+            margin: 0 0 10px 0;
+        }
+        .cc p {
+            margin: 5px 0;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 8px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="cc">
+        <h3>Update Location Details</h3>
+        <form id="updateForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="address">Address:</label>
+            <input type="text" id="streetAddress" name="address">
+
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" name="postalCode">
+
+            <label for="tel">Telephone:</label>
+            <input type="text" id="telNum" name="tel">
+
+            <button type="submit">Update Location</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Extract the query parameter from the URL
+            const queryParams = new URLSearchParams(window.location.search);
+            const id = queryParams.get('id');
+
+            if (id) {
+                try {
+                    // Fetch data from the server
+                    const response = await fetch(`http://localhost:3000/locations/${id}`);
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+
+                        // Pre-fill the form with data from the server
+                        document.getElementById('name').value = data.name || '';
+                        document.getElementById('streetAddress').value = data.street_address || '';
+                        document.getElementById('postalCode').value = data.postal_code || '';
+                        document.getElementById('telNum').value = data.tel_num || '';
+                    } else {
+                        alert('Failed to fetch data. Please try again later.');
+                    }
+                } catch (error) {
+                    alert('An error occurred while fetching data.');
+                    console.error('Error:', error);
+                }
+            } else {
+                alert('No ID provided in the URL.');
+            }
+        });
+
+        document.getElementById('updateForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+           
+            // Extract ID from the URL
+            const queryParams = new URLSearchParams(window.location.search);
+            const id = queryParams.get('id');
+
+            // Create a formData object to send
+            const formData = {
+            name: document.getElementById('name').value,
+            street_address: document.getElementById('streetAddress').value,
+            postal_code: document.getElementById('postalCode').value,
+            tel_num: document.getElementById('telNum').value
+        };
+
+            
+
+            try {
+                // Send the data to the server using fetch
+                const response = await fetch(`http://localhost:3000/locations/${id}`, {
+                    method: 'PUT', // Changed from POST to PUT for updating
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+        
+                if (response.ok) {
+                    // Handle successful response
+                    alert('Location updated successfully!');
+                    // Optionally reset the form
+                    // document.getElementById('updateForm').reset();
+                    window.location.href = 'http://localhost:3000';
+                } else {
+                    // Handle errors
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.message}`);
+                }
+            } catch (error) {
+                // Handle network or other errors
+                alert('An error occurred while updating the location.');
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
