@@ -5,10 +5,9 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Books App</title>
       <link rel="stylesheet" href="styles/styles.css" />
-    <title>Add a Map with Markers using HTML</title>
+    <title>List of locations</title>
 
-    <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script type="module" src="./index.js"></script>
+    
   </head>
   <body>
     <div class="container">
@@ -24,7 +23,7 @@
       <main>
           <div class="sidebar">
               <button class="location-btn">Check Location</button>
-              <div class="nearest-ccs">
+              <!-- <div class="nearest-ccs">
                   <h2>Nearest CCs</h2>
                   <div class="cc">
                       <h3>Clementi CC</h3>
@@ -47,38 +46,15 @@
                       <p>Tel: 6763797</p>
                       <p>9.7 km away</p>
                   </div>
+              </div> -->
+              <h2>Available CCs</h2>
+              <div id="location-list" class="nearest-ccs">
               </div>
           </div>
           
       </main>
   </div>
-  
-    <gmp-map
-      center="43.4142989,-124.2301242"
-      zoom="4"
-      map-id="DEMO_MAP_ID"
-      style="height: 400px"
-    >
-      <gmp-advanced-marker
-        position="37.4220656,-122.0840897"
-        title="Mountain View, CA"
-      ></gmp-advanced-marker>
-      <gmp-advanced-marker
-        position="47.648994,-122.3503845"
-        title="Seattle, WA"
-      ></gmp-advanced-marker>
-    </gmp-map>
-
-    <!-- 
-      The `defer` attribute causes the script to execute after the full HTML
-      document has been parsed. For non-blocking uses, avoiding race conditions,
-      and consistent behavior across browsers, consider loading using Promises. See
-      https://developers.google.com/maps/documentation/javascript/load-maps-js-api
-      for more information.
-      -->
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&libraries=maps,marker&v=beta"
-      defer
-    ></script>
+  <script src="./scripts/scripts.js"></script>
+   
   </body>
 </html>

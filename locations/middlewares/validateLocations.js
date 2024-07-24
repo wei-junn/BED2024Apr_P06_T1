@@ -2,11 +2,10 @@ const Joi = require("joi");
 
 const validateLocation = (req, res, next) => {
   const schema = Joi.object({
-    id: Joi.int().required(),
     name: Joi.string().min(3).max(100).required(),
     street_address: Joi.string().min(3).max(500).required(),
-    postal_code: Joi.int().max(6).required(),
-    tel_num: Joi.int().max(8).required(),
+    postal_code: Joi.string().max(6).required(),
+    tel_num: Joi.string().max(8).required(),
   });
 
   const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body

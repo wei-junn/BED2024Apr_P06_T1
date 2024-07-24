@@ -22,7 +22,7 @@ class Location {
     ); // Convert rows to Locations objects
   }
 
-  static async getLocationyId(id) {
+  static async getLocationById(id) {
     const connection = await sql.connect(dbConfig);
     const sqlQuery = `SELECT * FROM Locations WHERE id = @id`; // Parameterized query
     const request = connection.request();
@@ -42,9 +42,8 @@ class Location {
 
   static async createLocation(newLocationData) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `INSERT INTO Locations (id, name, street_address, postal_code, tel_num) VALUES (@id, @name, @street_address, @postal_code, @tel_num); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
+    const sqlQuery = `INSERT INTO Locations (name, street_address, postal_code, tel_num) VALUES (@name, @street_address, @postal_code, @tel_num); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
     const request = connection.request();
-    request.input("id", newLocationData.id);
     request.input("name", newLocationData.name);
     request.input("street_address", newLocationData.street_address);
     request.input("postal_code", newLocationData.postal_code);
@@ -56,11 +55,13 @@ class Location {
 
   static async updateLocation(id, newLocationData) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `UPDATE Locations SET name = @name, street_address = @street_address, postal_code = @postal_code, tel_num =  WHERE id = @id`; // Parameterized query
+    const sqlQuery = `UPDATE Locations SET name = @name, street_address = @street_address, postal_code = @postal_code, tel_num = @tel_num WHERE id = @id`; // Parameterized query
     const request = connection.request();
     request.input("id", id);
-    //request.input("title", newBookData.title || null); Handle optional fields
-    //request.input("author", newBookData.author || null);
+    request.input("name", newLocationData.name);
+    request.input("street_address", newLocationData.street_address);
+    request.input("postal_code", newLocationData.postal_code);
+    request.input("tel_num", newLocationData.tel_num);
     await request.query(sqlQuery);
     connection.close();
     return this.getLocationById(id); // Returning the updated location data
