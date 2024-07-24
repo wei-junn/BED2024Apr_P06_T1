@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Location</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Lexend Deca', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-container input[type="text"],
+        .form-container input[type="tel"],
+        .form-container input[type="number"],
+        .form-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Add New Location</h2>
+    <form id="locationForm">
+        <label for="name">Community Center Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="address">Address:</label>
+        <input type="text" id="streetAddress" name="street_address" required>
+
+        <label for="postalCode">Postal Code:</label>
+        <input type="text" id="postalCode" name="postal_code" required>
+
+        <label for="telNum">Telephone Number:</label>
+        <input type="tel" id="telNum" name="tel_num" required>
+
+        <button type="submit">Add Location</button>
+    </form>
+</div>
+<script>
+    document.getElementById('locationForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Prevent the default form submission
+    
+        // Collect the form data
+        const formData = {
+            name: document.getElementById('name').value,
+            street_address: document.getElementById('streetAddress').value,
+            postal_code: document.getElementById('postalCode').value,
+            tel_num: document.getElementById('telNum').value
+        };
+    
+        try {
+            // Send the data to the server using fetch
+            const response = await fetch('/locations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+    
+            if (response.ok) {
+                // Handle successful response
+                alert('Location added successfully!');
+                // Optionally reset the form
+                //document.getElementById('locationForm').reset();
+                window.location.href = 'http://localhost:3000';
+            } else {
+                // Handle errors
+                const errorData = await response.json();
+                alert(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            // Handle network or other errors
+            alert('An error occurred while adding the location.');
+            console.error('Error:', error);
+        }
+    });
+    </script>
+</body>
+</html>
