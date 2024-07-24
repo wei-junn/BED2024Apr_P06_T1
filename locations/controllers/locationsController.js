@@ -1,75 +1,75 @@
-const Book = require("../models/book");
+const Location = require("../models/location");
 
-const getAllBooks = async (req, res) => {
+const getAllLocations = async (req, res) => {
   try {
-    const books = await Book.getAllBooks();
-    res.json(books);
+    const locations = await Location.getAllLocations();
+    res.json(locations);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error retrieving books");
+    res.status(500).send("Error retrieving locations");
   }
 };
 
-const getBookById = async (req, res) => {
-  const bookId = parseInt(req.params.id);
+const getLocationById = async (req, res) => {
+  const locationId = parseInt(req.params.id);
   try {
-    const book = await Book.getBookById(bookId);
-    if (!book) {
-      return res.status(404).send("Book not found");
+    const location = await Location.getLocationById(locationId);
+    if (!location) {
+      return res.status(404).send("Location not found");
     }
-    res.json(book);
+    res.json(location);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error retrieving book");
+    res.status(500).send("Error retrieving location");
   }
 };
 
-const createBook = async (req, res) => {
-  const newBook = req.body;
+const createLocation = async (req, res) => {
+  const newLocation = req.body;
   try {
-    const createdBook = await Book.createBook(newBook);
-    res.status(201).json(createdBook);
+    const createdLocation = await Location.createLocation(newLocation);
+    res.status(201).json(createdLocation);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error creating book");
+    res.status(500).send("Error creating location");
   }
 };
 
-const updateBook = async (req, res) => {
-  const bookId = parseInt(req.params.id);
-  const newBookData = req.body;
+const updateLocation = async (req, res) => {
+  const locationId = parseInt(req.params.id);
+  const newLocationData = req.body;
   try {
-    const updatedBook = await Book.updateBook(bookId, newBookData);
-    if (!updatedBook) {
-      return res.status(404).send("Book not found");
+    const updatedLocation = await Location.updateLocation(locationId, newLocationData);
+    if (!updatedLocation) {
+      return res.status(404).send("Location not found");
     }
-    res.json(updatedBook);
+    res.json(updatedLocation);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error updating book");
+    res.status(500).send("Error updating location");
   }
 };
 
-const deleteBook = async (req, res) => {
-  const bookId = parseInt(req.params.id);
+const deleteLocation = async (req, res) => {
+  const locationId = parseInt(req.params.id);
   try {
-    const success = await Book.deleteBook(bookId);
+    const success = await Location.deleteLocation(locationId);
     if (!success) {
-      return res.status(404).send("Book not found");
+      return res.status(404).send("Location not found");
     }
     res.status(204).send();
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error deleting book");
+    res.status(500).send("Error deleting location");
   }
 };
 
 module.exports = {
-  getAllBooks,
-  getBookById,
-  createBook,
-  updateBook,
-  deleteBook,
+  getAllLocations,
+  getLocationById,
+  createLocation,
+  updateLocation,
+  deleteLocation,
 };
 
 

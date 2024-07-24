@@ -1,9 +1,9 @@
 const express = require("express");
-const booksController = require("./controllers/booksController");
+const locationsController = require("./controllers/locationsController");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
-const validateBook = require("./middlewares/validateBook");
+const validateLocations = require("./middlewares/validateLocations");
 const usersController = require("./controllers/usersController");
 const staticMiddleware = express.static("public"); // Path to the public folder
 const app = express();
@@ -15,19 +15,21 @@ app.use(bodyParser.urlencoded({ extended: true })); // For form data handling
 
 app.use(staticMiddleware); // Mount the static middleware
 
-// Define routes
-app.get("/books", booksController.getAllBooks);
-app.get("/books/:id", booksController.getBookById);
-app.post("/books", validateBook, booksController.createBook); // POST for creating books (can handle JSON data)
-app.put("/books/:id", validateBook, booksController.updateBook); // PUT for updating books
-app.delete("/books/:id", booksController.deleteBook); // DELETE for deleting books
+// Define routes for locations
+app.get("/locations", locationsController.getAllLocations);
+app.get("/locations/:id", locationsController.getLocationById);
+app.post("/locations", validateLocations, locationsController.createLocation); // POST for creating locations (can handle JSON data)
+app.put("/locations/:id", validateLocations, locationsController.updateLocation); // PUT for updating locations
+app.delete("/locations/:id", locationsController.deleteLocation); // DELETE for deleting locations
+
+// Define routes for users
 app.post("/users", usersController.createUser); // Create user
 app.get("/users", usersController.getAllUsers); // Get all users
 app.get("/users/:id", usersController.getUserById); // Get user by ID
 app.put("/users/:id", usersController.updateUser); // Update user
 app.delete("/users/:id", usersController.deleteUser); // Delete user
-app.get("/users/search", usersController.searchUsers);
-app.get("/users/with-books", usersController.getUsersWithBooks);
+app.get("/users/search", usersController.searchUsers); // Search users
+app.get("/users/with-locations", usersController.getUsersWithLocation); // Get users with locations
 
 app.listen(port, async () => {
   try {
@@ -42,6 +44,7 @@ app.listen(port, async () => {
 
   console.log(`Server listening on port ${port}`);
 });
+
 
 // Close the connection pool on SIGINT signal
 process.on("SIGINT", async () => {

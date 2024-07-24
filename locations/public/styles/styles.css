@@ -1,24 +1,83 @@
-#book-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 2rem;
-    list-style: none;
-    padding: 0;
-  }
-  
-  .book {
-    width: calc(33% - 1rem);
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    text-align: center;
-  }
-  
-  .book h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-  }
+body {
+  font-family: 'Lexend Deca', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header {
+  border-bottom: 1px solid black;
+  padding: 10px 20px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: black;
+  font-size: 18px;
+}
+
+main {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 30%;
+  border-right: 1px solid black;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.location-btn {
+  background-color: #fff;
+  border: 1px solid black;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.nearest-ccs h2 {
+  margin-top: 0;
+}
+
+.cc {
+  border-top: 1px dashed black;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.cc h3 {
+  margin: 0;
+}
+
+.map {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left: 1px solid black;
+  padding: 20px;
+  box-sizing: border-box;
+}

@@ -1,66 +1,74 @@
 const sql = require("mssql");
 const dbConfig = require("../dbConfig");
 
-class Book {
-  constructor(id, title, author) {
+class Location {
+  constructor(id, name, street_address, postal_code, tel_num) {
     this.id = id;
-    this.title = title;
-    this.author = author;
+    this.name = name;
+    this.street_address = street_address;
+    this.postal_code = postal_code;
+    this.tel_num = tel_num;
   }
+  
 
-  static async getAllBooks() {
+  static async getAllLocations() {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT * FROM Books`; // Replace with your actual table name
+    const sqlQuery = `SELECT * FROM Locations`; // Replace with your actual table name
     const request = connection.request();
     const result = await request.query(sqlQuery);
     connection.close();
     return result.recordset.map(
-      (row) => new Book(row.id, row.title, row.author)
-    ); // Convert rows to Book objects
+      (row) => new Location(row.id, row.name, row.street_address, row.postal_code, row.tel_num)
+    ); // Convert rows to Locations objects
   }
 
-  static async getBookById(id) {
+  static async getLocationyId(id) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `SELECT * FROM Books WHERE id = @id`; // Parameterized query
+    const sqlQuery = `SELECT * FROM Locations WHERE id = @id`; // Parameterized query
     const request = connection.request();
     request.input("id", id);
     const result = await request.query(sqlQuery);
     connection.close();
     return result.recordset[0]
-      ? new Book(
+      ? new Location(
           result.recordset[0].id,
-          result.recordset[0].title,
-          result.recordset[0].author
+          result.recordset[0].name,
+          result.recordset[0].street_address,
+          result.recordset[0].postal_code,
+          result.recordset[0].tel_num
         )
-      : null; // Handle book not found
+      : null; // Handle location not found
   }
 
-  static async createBook(newBookData) {
+  static async createLocation(newLocationData) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `INSERT INTO Books (title, author) VALUES (@title, @author); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
+    const sqlQuery = `INSERT INTO Locations (id, name, street_address, postal_code, tel_num) VALUES (@id, @name, @street_address, @postal_code, @tel_num); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
     const request = connection.request();
-    request.input("title", newBookData.title);
-    request.input("author", newBookData.author);
+    request.input("id", newLocationData.id);
+    request.input("name", newLocationData.name);
+    request.input("street_address", newLocationData.street_address);
+    request.input("postal_code", newLocationData.postal_code);
+    request.input("tel_num", newLocationData.tel_num);
     const result = await request.query(sqlQuery);
     connection.close();
-    return this.getBookById(result.recordset[0].id); // Retrieve the newly created book using its ID
+    return this.getLocationById(result.recordset[0].id); // Retrieve the newly created location using its ID
   }
 
-  static async updateBook(id, newBookData) {
+  static async updateLocation(id, newLocationData) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `UPDATE Books SET title = @title, author = @author WHERE id = @id`; // Parameterized query
+    const sqlQuery = `UPDATE Locations SET name = @name, street_address = @street_address, postal_code = @postal_code, tel_num =  WHERE id = @id`; // Parameterized query
     const request = connection.request();
     request.input("id", id);
-    request.input("title", newBookData.title || null); // Handle optional fields
-    request.input("author", newBookData.author || null);
+    //request.input("title", newBookData.title || null); Handle optional fields
+    //request.input("author", newBookData.author || null);
     await request.query(sqlQuery);
     connection.close();
-    return this.getBookById(id); // Returning the updated book data
+    return this.getLocationById(id); // Returning the updated location data
   }
 
-  static async deleteBook(id) {
+  static async deleteLocation(id) {
     const connection = await sql.connect(dbConfig);
-    const sqlQuery = `DELETE FROM Books WHERE id = @id`; // Parameterized query
+    const sqlQuery = `DELETE FROM Locations WHERE id = @id`; // Parameterized query
     const request = connection.request();
     request.input("id", id);
     const result = await request.query(sqlQuery);
@@ -69,4 +77,5 @@ class Book {
   }
 }
 
-module.exports = Book;
+
+module.exports = Location;

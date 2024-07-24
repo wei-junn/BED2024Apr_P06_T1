@@ -1,13 +1,11 @@
-const sql = require("mssql");
+const sql = require('mssql');
 const dbConfig = require("../dbConfig");
 
-const sql = require('mssql');
-
 const config = {
-  user: 'your_username',
-  password: 'your_password',
-  server: 'your_server', 
-  database: 'your_database',
+  user: 'location_api',
+  password: '123',
+  server: 'localhost', 
+  database: 'locations_db',
   options: {
     encrypt: true, // Use this if you're on Windows Azure
     trustServerCertificate: true // Use this if your SQL Server uses a self-signed certificate
@@ -116,42 +114,44 @@ class User {
     }
   }
 
-  static async getUsersWithBooks() {
+  static async getUsersWithLocations() {
     const connection = await sql.connect(dbConfig);
 
     try {
       const query = `
-        SELECT u.id AS user_id, u.username, u.email, b.id AS book_id, b.title, b.author
+        SELECT u.id AS user_id, u.username, u.email, b.id AS location_id, b.id, b.name, b.street_address, b.postal_code, b.tel_num
         FROM Users u
-        LEFT JOIN UserBooks ub ON ub.user_id = u.id
-        LEFT JOIN Books b ON ub.book_id = b.id
+        LEFT JOIN UserLocations ub ON ub.user_id = u.id
+        LEFT JOIN Locations b ON ub.location_id = b.id
         ORDER BY u.username;
       `;
 
       const result = await connection.request().query(query);
 
-      // Group users and their books
-      const usersWithBooks = {};
+      // Group users and their locations
+      const usersWithLocations = {};
       for (const row of result.recordset) {
         const userId = row.user_id;
-        if (!usersWithBooks[userId]) {
-          usersWithBooks[userId] = {
+        if (!usersWithLocations[userId]) {
+          usersWithLocations[userId] = {
             id: userId,
             username: row.username,
             email: row.email,
-            books: [],
+            locations: [],
           };
         }
-        usersWithBooks[userId].books.push({
-          id: row.book_id,
-          title: row.title,
-          author: row.author,
+        usersWithLocations[userId].locations.push({
+          id: row.id,
+          name: row.name,
+          street_address: row.street_address,
+          postal_code: row.postal_code, 
+          tel_num: row.tel_num
         });
       }
 
-      return Object.values(usersWithBooks);
+      return Object.values(usersWithLocations);
     } catch (error) {
-      throw new Error("Error fetching users with books");
+      throw new Error("Error fetching users with locations");
     } finally {
       await connection.close();
     }
