@@ -1,6 +1,6 @@
 module.exports = {
-    user: "location_user", // Replace with your SQL Server login username
-    password: "123", // Replace with your SQL Server login password
+    user: "user", // Replace with your SQL Server login username
+    password: "User123", // Replace with your SQL Server login password
     server: "localhost",
     database: "location_api",
     trustServerCertificate: true,

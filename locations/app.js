@@ -5,6 +5,8 @@ const dbConfig = require("./dbConfig");
 const bodyParser = require("body-parser");
 const validateLocations = require("./middlewares/validateLocations");
 const usersController = require("./controllers/usersController");
+const eventController = require("./controllers/EventController");
+const validateEvents = require("./middlewares/validateEvents");
 const staticMiddleware = express.static("public"); // Path to the public folder
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -30,6 +32,15 @@ app.put("/users/:id", usersController.updateUser); // Update user
 app.delete("/users/:id", usersController.deleteUser); // Delete user
 app.get("/users/search", usersController.searchUsers); // Search users
 app.get("/users/with-locations", usersController.getUsersWithLocation); // Get users with locations
+
+// Define routes for events
+app.get("/events/search", eventController.searchEvents) // search for events
+app.get("/events",eventController.getAllEvents) // Get all events
+app.get("/events/:id", eventController.getEventById) // Get events by id
+app.post("/events", validateEvents, eventController.createEvents) // create new events
+app.put("/events/:id", validateEvents, eventController.updateEvent) // update events
+app.delete("/events/:id", eventController.deleteEvent) // delete events
+
 
 app.listen(port, async () => {
   try {
