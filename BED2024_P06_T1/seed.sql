@@ -6,8 +6,6 @@ EventDescription varchar(1000) NOT NULL,
 TimeStart datetime,
 TimeEnd datetime,
 locationid int,
-AdminId int,
-foreign key (AdminId) references Admin(AdminId),
 foreign key (locationid) references Location(Id)
 )
 

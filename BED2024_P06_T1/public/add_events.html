@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddEventsPage</title>
+</head>
+
+<body style="display: flex; flex-direction: column; align-items: center; padding: 2rem; background: #f8fafc; height: 100%;">
+    <div style="position: relative; display: flex; flex-direction: column; align-items: center;">
+        <button style="border: 2px solid #d1d5db; padding: 0.5rem; border-radius: 0.375rem; background: white; margin-bottom: 2rem;">
+            <img src="https://storage.gignite.ai/mediaengine/gignite-logo.png" alt="G Logo" style="height: 2rem; width: 2rem; border-radius: 9999px;">
+        </button>
+        <div style="display: none; position: absolute; top: 100%; right: 0; background: white; border: 1px solid #d1d5db; border-radius: 0.375rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+            <div style="padding: 0.5rem; font-weight: bold;">Menu</div>
+            <div style="padding: 0.5rem;">My Events</div>
+            <div style="padding: 0.5rem;">My Tickets</div>
+            <div style="padding: 0.5rem;">Organizer</div>
+            <div style="padding: 0.5rem;">Account Settings</div>
+            <div style="padding: 0.5rem;">Log Out</div>
+        </div>
+    </div>
+
+    <div style="width: 100%; max-width: 28rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+        <h1 style="margin-bottom: 1.5rem; font-size: 1.875rem; font-weight: 800; color: #111827;">Create Event</h1>
+        <input type="text" placeholder="Event Name" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 100%;">
+        <textarea placeholder="Event Description" rows="3" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 100%;"></textarea>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+            <div>
+                <p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #374151;">Starts</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                    <svg style="height: 1rem; width: 1rem; color: #9ca3af;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M3 11H21M5 11V21H19V11H5Z" /></svg>
+                    <input type="datetime-local" placeholder="Select date and time" value="07/27/2024, 1:55 AM"  style="font-weight: 500; color: #111827; border: none; outline: none;">
+                </div>
+            </div>
+            <div>
+                <p style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #374151;">Ends</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem;">
+                    <svg style="height: 1rem; width: 1rem; color: #9ca3af;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3M16 7V3M3 11H21M5 11V21H19V11H5Z" /></svg>
+                    <input type="datetime-local" placeholder="Select date and time" value="07/27/2024, 1:55 AM"  style="font-weight: 500; color: #111827; border: none; outline: none;">
+                </div>
+            </div>
+        </div>
+        <input type="text" placeholder="Location" style="margin-bottom: 1rem; padding: 0.75rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; width: 100%;">
+        <div style="display: flex; flex-direction: column; margin-bottom: 1.5rem;">
+            <span style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; color: #374151;">Online Event</span>
+            <input type="checkbox">
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+            <input type="file" accept="image/*" style="display: none;" id="image">
+            <label for="image" style="cursor: pointer;">
+                <img src="https://avatars.githubusercontent.com/u/122350750" alt="Event" style="margin-bottom: 0.5rem; width: 100%; border-radius: 0.375rem; height: 10rem; object-cover: cover;">
+                <p style="font-size: 0.875rem; color: #6b7280;">Event Image</p>
+            </label>
+        </div>
+        <button type="submit" style="background: #3b82f6; padding: 0.75rem 1.5rem; border-radius: 0.375rem; color: white; text-align: center; cursor: pointer; font-weight: 500;">Create Event</button>
+    </div>
+</body>
+
+</html>
+
+</body>
+</html>

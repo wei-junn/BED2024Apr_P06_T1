@@ -1,4 +1,8 @@
+//Swagger
 const express = require("express");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-output.json"); // Import generated spec
+
 const locationsController = require("./controllers/locationsController");
 const sql = require("mssql");
 const dbConfig = require("./dbConfig");
@@ -7,6 +11,8 @@ const validateLocations = require("./middlewares/validateLocations");
 const usersController = require("./controllers/usersController");
 const eventController = require("./controllers/EventController");
 const validateEvents = require("./middlewares/validateEvents");
+const path = require("path");
+
 const staticMiddleware = express.static("public"); // Path to the public folder
 const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default port
@@ -41,6 +47,8 @@ app.post("/events", validateEvents, eventController.createEvents) // create new 
 app.put("/events/:id", validateEvents, eventController.updateEvent) // update events
 app.delete("/events/:id", eventController.deleteEvent) // delete events
 
+// Serve the Swagger UI at a specific route
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.listen(port, async () => {
   try {

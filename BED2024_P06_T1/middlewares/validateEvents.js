@@ -4,9 +4,9 @@ const validateEvent = (req, res, next) => {
   const schema = Joi.object({
     EventName: Joi.string().min(3).max(150).required(),
     EventDescription: Joi.string().min(5).max(1000).required(),
-    TimeStart: Joi.date().iso(),
-    TimeEnd: Joi.date().iso(),
-    AdminId: Joi.number().integer().positive()
+    TimeStart: Joi.date().iso().required(),
+    TimeEnd: Joi.date().iso().required(),
+    locationid: Joi.number().integer().positive().required()
   });
 
   const validation = schema.validate(req.body, { abortEarly: false }); // Validate request body

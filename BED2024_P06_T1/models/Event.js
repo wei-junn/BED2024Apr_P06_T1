@@ -45,7 +45,8 @@ class Event {
               result.recordset[0].EventName,
               result.recordset[0].EventDescription,
               result.recordset[0].TimeStart,
-              result.recordset[0].TimeEnd
+              result.recordset[0].TimeEnd,
+              result.recordset[0].locationid
             )
           : null; // Handle event not found
     }
@@ -53,14 +54,13 @@ class Event {
     static async createEvent(newEventData) {
         const connection = await sql.connect(dbConfig);
     
-        const sqlQuery = `INSERT INTO Events (EventName, EventDescription, TimeStart, TimeEnd, AdminId, locationid) VALUES (@EventName, @EventDescription, @TimeStart, @TimeEnd, @AdminId, @locationid); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
+        const sqlQuery = `INSERT INTO Events (EventName, EventDescription, TimeStart, TimeEnd, locationid) VALUES (@EventName, @EventDescription, @TimeStart, @TimeEnd, @locationid); SELECT SCOPE_IDENTITY() AS id;`; // Retrieve ID of inserted record
     
         const request = connection.request();
         request.input("EventName", newEventData.EventName);
         request.input("EventDescription", newEventData.EventDescription);
         request.input("TimeStart", newEventData.TimeStart);
         request.input("TimeEnd", newEventData.TimeEnd);
-        request.input("AdminId", newEventData.AdminId);
         request.input("locationid", newEventData.locationid);
         const result = await request.query(sqlQuery);
     
@@ -72,7 +72,7 @@ class Event {
       static async updateEvent(EventId, newEventData) {
         const connection = await sql.connect(dbConfig);
     
-        const sqlQuery = `UPDATE Events SET EventName = @EventName, EventDescription = @EventDescription WHERE Eventid = @Eventid`; // Parameterized query
+        const sqlQuery = `UPDATE Events SET EventName = @EventName, EventDescription = @EventDescription, TimeStart = @TimeStart, TimeEnd = @TimeEnd, locationid = @locationid WHERE Eventid = @Eventid`; // Parameterized query
     
         const request = connection.request();
         request.input("Eventid", EventId);
@@ -80,6 +80,7 @@ class Event {
         request.input("EventDescription", newEventData.EventDescription || null);
         request.input("TimeStart", newEventData.TimeStart || null);
         request.input("TimeEnd", newEventData.TimeEnd || null);
+        request.input("locationid", newEventData.locationid);
     
         await request.query(sqlQuery);
     
@@ -104,7 +105,7 @@ class Event {
 
       static async searchEvents(searchTerm) {
         const connection = await sql.connect(dbConfig);
-    
+        console.log("test")
         try {
           const query = `
            SELECT 
@@ -116,8 +117,7 @@ class Event {
             L.Name AS LocationName,
             L.StreetAddress,
             L.PostalCode,
-            L.TelNum,
-            E.AdminId
+            L.TelNum
           FROM 
             Events E
           JOIN 
@@ -134,9 +134,9 @@ class Event {
             );
 
           `;
-    
+          console.log("testing")
           const result = await connection.request().query(query);
-          console.log(result.recordset);
+          console.log(result);
           return result.recordset;
         } catch (error) {
           throw new Error("Error searching for events"); // Or handle error differently
@@ -145,26 +145,7 @@ class Event {
         }
       }
 
-      static async GetEventAllWithLocation (){
-        const connection = await sql.connect(dbConfig);
-        const query = `SELECT 
-        e.EventId,
-        e.EventName,
-        e.EventDescription,
-        e.TimeStart,
-        e.TimeEnd,
-        l.Name as LocationName,
-        l.StreetAddress,
-        l.PostalCode
-        FROM 
-          Events e
-        JOIN 
-        Location l ON e.locationid = l.Id;`
-
-        const result = await connection.request().query(query);
-        console.log(result.recordset);
-        return result.recordset;
-      }
+    
 }
 
 module.exports = Event;

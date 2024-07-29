@@ -1,6 +1,6 @@
-// create try catch for each functions
 const Event = require("../models/Event");
 const sql = require('mssql');
+
 
 const getAllEvents = async (req, res) => {
   try {
@@ -75,6 +75,7 @@ const searchEvents = async (req, res) => {
   
     try {    
       const Events = await Event.searchEvents(searchTerm);
+      console.log(Events)
       res.json(Events);
     } catch (error) {
       console.error(error);
